@@ -1,8 +1,8 @@
 {
     "subject": "ISRAEL",
     "location": "Gauteng, South Africa",
-    "shi": 94.7,
-    "tti": 92.6,
-    "assessment": "LPU Handshake diverted due to high entropy. Vector Israel analyzed via secondary heuristics. Systemic friction detected at 33\u00b0. Manual architectural oversight required.",
-    "timestamp": "4044"
+    "shi": 95.0,
+    "tti": 92.1,
+    "assessment": "CRITICAL: LPU DISPATCH ERROR. Verify API status.",
+    "timestamp": "1773165196"
 }
