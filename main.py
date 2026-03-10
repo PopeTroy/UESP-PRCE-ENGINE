@@ -7,18 +7,18 @@ import time
 from groq import Groq
 
 def run_universal_audit(target):
-    # 1. AUTHENTICATION
+    # 1. AUTHENTICATION & HUB MAPPING
     api_key = os.environ.get("GROQ_API_KEY")
     ip_token = os.environ.get("IP_TOKEN")
 
     if not api_key:
-        print("CRITICAL: GROQ_API_KEY_MISSING")
+        print("CRITICAL: AUTH_FAIL")
         sys.exit(1)
 
-    # 2. LPU INITIALIZATION (LLAMA-3.3-70B)
+    # 2. LPU INITIALIZATION
     client = Groq(api_key=api_key, timeout=60.0)
     
-    # 3. NODE LOCALIZATION
+    # 3. NODE LOCALIZATION (GAUTENG HUB)
     try:
         ip_res = requests.get(f"https://ipinfo.io/json?token={ip_token}", timeout=10)
         location = f"{ip_res.json().get('city', 'Gauteng')}, South Africa"
@@ -26,21 +26,21 @@ def run_universal_audit(target):
         location = "Primary Protocol Node (Gauteng)"
 
     # 4. THE 33° CALCULATED DIRECTIVE
-    # We force the LPU to calculate SHI/TTI based on systemic 'Sins' and 'Virtues'
+    # We force the LPU to use its internal intelligence to score the vector
     system_instruction = f"""
     You are the UESP Universal Auditor for Celsius Technology & Media Group.
     Execute a 33° Structural Penetration on Vector: {target}.
     
     DIAGNOSTIC PROTOCOL:
-    1. Identify 3 [SINS]: Specific systemic frictions/inefficiencies.
-    2. Architect 3 [VIRTUES]: Professional-grade resolutions (Automation, UI/UX, Cloud).
-    3. CALCULATE SHI: System Health Index (0.0 to 100.0) based on Sin severity.
-    4. CALCULATE TTI: Temporal Integrity (0.0 to 100.0) based on resolution speed.
-    5. VERDICT: A strategic summary of long-term resonance.
+    1. Identify 3 [SINS]: Core systemic inefficiencies.
+    2. Architect 3 [VIRTUES]: High-fidelity resolutions.
+    3. CALCULATE SHI (System Health Index): 0.0 to 100.0 based on Sin severity.
+    4. CALCULATE TTI (Temporal Integrity): 0.0 to 100.0 based on resolution speed.
+    5. VERDICT: Strategic summary of long-term resonance.
 
     OUTPUT REQUIREMENT: 
-    Return ONLY a valid JSON object. No conversational filler.
-    JSON Structure: {{"shi": float, "tti": float, "sins": [], "virtues": [], "verdict": ""}}
+    Return ONLY a valid JSON object. No prose.
+    Structure: {{"shi": float, "tti": float, "sins": [], "virtues": [], "verdict": ""}}
     """
 
     try:
@@ -48,25 +48,26 @@ def run_universal_audit(target):
             model="llama-3.3-70b-versatile",
             messages=[
                 {"role": "system", "content": system_instruction},
-                {"role": "user", "content": f"Execute Audit for Vector: {target}"}
+                {"role": "user", "content": f"Audit Vector: {target}"}
             ],
             response_format={ "type": "json_object" },
             temperature=0.15
         )
-        lpu_response = json.loads(completion.choices[0].message.content)
+        lpu_res = json.loads(completion.choices[0].message.content)
         
-        # Format the assessment for the HUD Log Box
-        assessment = f"[SINS]\n" + "\n".join([f"• {s}" for s in lpu_response['sins']])
-        assessment += f"\n\n[VIRTUES]\n" + "\n".join([f"• {v}" for v in lpu_response['virtues']])
-        assessment += f"\n\n[VERDICT]\n{lpu_response['verdict']}"
+        # Build Assessment Log
+        assessment = f"[SINS]\n" + "\n".join([f"• {s}" for s in lpu_res['sins']])
+        assessment += f"\n\n[VIRTUES]\n" + "\n".join([f"• {v}" for v in lpu_res['virtues']])
+        assessment += f"\n\n[VERDICT]\n{lpu_res['verdict']}"
         
-        shi = lpu_response.get('shi', 0.0)
-        tti = lpu_response.get('tti', 0.0)
+        shi = lpu_res.get('shi', 0.0)
+        tti = lpu_res.get('tti', 0.0)
+        status = "RESONANT"
 
     except Exception as e:
-        error_type = type(e).__name__
-        assessment = f"LPU DISPATCH FAIL // ERROR: {error_type} // {str(e)[:100]}"
+        assessment = f"LPU DISPATCH FAIL: {str(e)[:100]}"
         shi, tti = 0.0, 0.0
+        status = "ERROR"
 
     # 5. DATA PERSISTENCE
     result = {
@@ -75,6 +76,7 @@ def run_universal_audit(target):
         "shi": shi,
         "tti": tti,
         "assessment": assessment,
+        "status": status,
         "timestamp": str(int(time.time()))
     }
     
