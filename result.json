@@ -1,8 +1,8 @@
 {
-    "subject": "ISRAEL",
+    "subject": "ISRAEL ",
     "location": "Gauteng, South Africa",
-    "shi": 97.8,
-    "tti": 95.8,
-    "assessment": "LPU Handshake timeout. Vector Israel analyzed via local diagnostic heuristics. SHI/TTI stable.",
-    "timestamp": "1903"
+    "shi": 92.7,
+    "tti": 90.4,
+    "assessment": "LPU Handshake diverted due to high entropy. Vector Israel  analyzed via secondary heuristics. Systemic friction detected at 33\u00b0. Manual architectural oversight required.",
+    "timestamp": "5344"
 }
