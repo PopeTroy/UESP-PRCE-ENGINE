@@ -8,7 +8,7 @@ from groq import Groq
 
 def run_universal_audit(target):
     # 1. AUTHENTICATION RECOVERY
-    # The engine looks for GROQ_API_KEY in the GitHub Environment
+    # Extracting credentials from the GitHub Environment Vault
     api_key = os.environ.get("GROQ_API_KEY")
     ip_token = os.environ.get("IP_TOKEN")
 
@@ -18,13 +18,13 @@ def run_universal_audit(target):
     tti = round((shi * random.uniform(0.96, 0.99)), 1)
     
     # 3. THE 33° LPU DIRECTIVE
-    # Forcing Groq to use its internal intelligence for a step-by-step audit
+    # System Instruction: Forcing the LPU to use its internal database systematically
     system_instruction = f"""
     You are the UESP Universal Auditor for Celsius Technology & Media Group.
     Execute a 33° Structural Penetration on Vector: {target}.
     
     STEP-BY-STEP EXECUTION PROTOCOL:
-    1. DIAGNOSE ENTROPY: Identify 3 [SINS] (Systemic frictions/inefficiencies).
+    1. DIAGNOSE ENTROPY: Identify 3 [SINS] (Internal Database systemic friction).
     2. ARCHITECTURAL RESOLUTION: Provide 3 [VIRTUES] (Professional resolutions).
     3. STABILITY VERDICT: Provide 1 [VERDICT] (Long-term strategic resonance).
     
@@ -32,15 +32,15 @@ def run_universal_audit(target):
     """
 
     try:
-        # Check for Key Presence before initiating the Stab
         if not api_key:
             raise ValueError("AUTH_EMPTY: GROQ_API_KEY is missing from the Environment.")
 
+        # Initializing the Handshake with a 60s window for deep synthesis
         client = Groq(api_key=api_key, timeout=60.0)
         
-        # PURE LPU ENGAGEMENT
+        # MODEL UPDATE: Switching to llama-3.3-70b-versatile for 2026 Resonance
         completion = client.chat.completions.create(
-            model="llama3-70b-8192",
+            model="llama-3.3-70b-versatile",
             messages=[
                 {"role": "system", "content": system_instruction},
                 {"role": "user", "content": f"Audit Vector: {target}"}
@@ -50,12 +50,12 @@ def run_universal_audit(target):
         assessment = completion.choices[0].message.content
 
     except Exception as e:
-        # TELEMETRY OVERWRITE: Reports the exact "Sin" preventing the Dispatch
+        # TELEMETRY OVERWRITE: Captures the exact reason for dispatch failure
         error_type = type(e).__name__
         assessment = f"LPU DISPATCH FAIL // ERROR_TYPE: {error_type} // MSG: {str(e)[:100]}"
 
     # 4. DATA PERSISTENCE
-    # Formatting the final payload for the WordPress HUD
+    # Formatting the payload for the WordPress Systematic HUD
     result = {
         "subject": target.upper(),
         "location": "Primary Protocol Node (Gauteng)",
