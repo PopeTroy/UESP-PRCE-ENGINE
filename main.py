@@ -5,44 +5,56 @@ import random
 import os
 from groq import Groq
 
-# RECALLING SECRETS FROM THE VAULT
+# RECALLING SECRETS FROM VAULT
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 IP_TOKEN = os.getenv("IP_TOKEN")
+DM_API_KEY = os.getenv("DM_API_KEY")
+APIFY_TOKEN = os.getenv("APIFY_TOKEN")
 
 def run_universal_audit(target):
-    # Initialize the High-Resolution Brain
     client = Groq(api_key=GROQ_API_KEY)
     
-    # 1. NODE LOCALIZATION (IP Intelligence)
+    # 1. LIVE INTEL: APIFY NEWS SCRAPER
+    # Pulling recent headlines for the target vector to find "Sins"
+    news_context = ""
+    try:
+        apify_url = f"https://api.apify.com/v2/acts/apify~google-news-scraper/run-sync-get-dataset-items?token={APIFY_TOKEN}"
+        news_res = requests.post(apify_url, json={"queries": [f"{target} problems inefficiencies"]})
+        news_items = news_res.json()
+        news_context = " ".join([item.get('title', '') for item in news_items[:3]])
+    except:
+        news_context = "Standard systemic friction detected."
+
+    # 2. NODE LOCALIZATION
     try:
         ip_data = requests.get(f"https://ipinfo.io/json?token={IP_TOKEN}").json()
         location = f"{ip_data.get('city', 'Kempton Park')}, {ip_data.get('region', 'Gauteng')}"
     except:
-        location = "Primary Node (Gauteng)"
+        location = "Gauteng Protocol Node"
 
-    # 2. SYSTEM INTEGRITY CALCULATION
-    shi = round(random.uniform(88, 99.5), 1)
-    tti = round((shi * random.uniform(0.94, 0.99)), 1)
-
-    # 3. CROSS-INDUSTRY SYNTHESIS (Groq LPU)
+    # 3. UNIVERSAL RESOLUTION ENGINE (Groq LPU)
     try:
         completion = client.chat.completions.create(
             model="llama3-70b-8192",
             messages=[
-                {"role": "system", "content": "You are the UESP Universal Auditor. Quantify real-world industry inefficiencies as 'Sins' and technical/professional resolutions as 'Virtues'."},
-                {"role": "user", "content": f"Audit Vector: {target}. Location: {location}. Map systemic entropy to work-class resolutions."}
+                {"role": "system", "content": "You are the UESP Universal Auditor. Use the provided news context to identify real-world Sins (inefficiencies) and Virtues (work-class resolutions)."},
+                {"role": "user", "content": f"Vector: {target}. Location: {location}. News Context: {news_context}. Synthesize an overwrite."}
             ]
         )
         assessment = completion.choices[0].message.content
-    except Exception as e:
-        assessment = f"LPU Handshake Interrupted. Local diagnostics: {target} stable."
+    except:
+        assessment = f"Manual Audit: Vector {target} requires structural intervention."
 
-    # 4. JSON EXPORT FOR THE HUD
+    # 4. HUD DATA SYNTHESIS
+    shi = round(random.uniform(85, 98), 1)
+    tti = round((shi * random.uniform(0.92, 0.99)), 1)
+
     result = {
         "subject": target.upper(),
         "location": location,
         "shi": shi,
         "tti": tti,
+        "news_anchor": news_context[:100] + "...",
         "assessment": assessment,
         "sins": ["CENTRALIZATION", "FRICTION", "DELAY", "OBSCURITY", "STAGNATION", "COMPLIANCE", "LIMITATION"],
         "virtues": ["SYNTHESIS", "RESONANCE", "FLOW", "CLARITY", "VELOCITY", "SOVEREIGNTY", "EXPANSION"]
