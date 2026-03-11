@@ -1,0 +1,7 @@
+    - name: Commit and Push Results
+      run: |
+        git config --global user.name "PopeTroy"
+        git config --global user.email "info@celsiusmediagroup.co.za"
+        git add result.json
+        git commit -m "Update Diagnostic Resonance [33rd Degree]" || exit 0
+        git push

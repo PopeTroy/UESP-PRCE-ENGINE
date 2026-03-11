@@ -1,4 +1,0 @@
-on:
-  repository_dispatch:
-    types: [execute_stab]
-    
