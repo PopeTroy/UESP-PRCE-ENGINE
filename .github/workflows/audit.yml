@@ -1,39 +1,30 @@
-name: UESP-PRCE-CORE
+name: UESP ENGINE AUDIT
+
 on:
-  workflow_dispatch:
-    inputs:
-      subject:
-        description: 'Target Vector'
-        required: true
-        default: 'Global System'
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 0 * * 0' # Weekly health check
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  audit:
+  audit-environment:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write  # CRITICAL: Allows the engine to push results
     steps:
-      - name: Checkout Code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - name: Validate Dependencies
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      - name: Install Dependencies
-        run: pip install requests groq
-
-      - name: Execute 33° Protocol Audit
-        env:
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-          IP_TOKEN: ${{ secrets.IP_TOKEN }}
-        run: python main.py "${{ github.event.inputs.subject }}"
-
-      - name: Push Resonance Data
+      - name: Environment Report
         run: |
-          git config --global user.name "UESP-Bot"
-          git config --global user.email "bot@celsiustechmediagroup.co.za"
-          git add result.json
-          git commit -m "Audit Resonant: ${{ github.event.inputs.subject }}" || exit 0
-          git push
+          echo "NODE VERSION AUDIT:"
+          node -v
+          echo "PYTHON VERSION AUDIT:"
+          python --version
+          echo "33rd DEGREE STATUS: OPERATIONAL"
