@@ -1,4 +1,7 @@
-    - name: Commit and Push Results
+on:
+  repository_dispatch:
+    types: [execute_stab]
+ - name: Commit and Push Results
       run: |
         git config --global user.name "PopeTroy"
         git config --global user.email "info@celsiusmediagroup.co.za"
