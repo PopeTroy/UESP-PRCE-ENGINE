@@ -4,8 +4,8 @@ on:
   repository_dispatch:
     types: [execute_stab]
 
-# Opting into Node.js 24 environment immediately
 env:
+  # Force Node.js 24 to resolve deprecation warnings
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 permissions:
@@ -16,10 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4 # Already v4, compatible with Node 24
+        uses: actions/checkout@v4
 
       - name: Setup Python 3.10
-        uses: actions/setup-python@v5 # Updated to v5 for Node 24 support
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
@@ -28,10 +28,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests groq
 
-      - name: Execute 33 Degree Synthesis
+      - name: Execute Political Synthesis
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+        # Passing the subject from the website to the python script
         run: python main.py "${{ github.event.client_payload.subject }}"
 
       - name: Commit and Push Resonance
@@ -39,5 +39,5 @@ jobs:
           git config --global user.name "PopeTroy"
           git config --global user.email "info@celsiusmediagroup.co.za"
           git add result.json
-          git commit -m "33rd Degree Resonance: ${{ github.event.client_payload.subject }}" || exit 0
+          git commit -m "33rd Degree Political Summary: ${{ github.event.client_payload.subject }}" || exit 0
           git push
