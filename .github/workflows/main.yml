@@ -5,7 +5,6 @@ on:
     types: [execute_stab]
 
 env:
-  # Force Node.js 24 to resolve deprecation warnings
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 permissions:
@@ -28,10 +27,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests groq
 
-      - name: Execute Political Synthesis
+      - name: Execute Groq-Native Synthesis
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-        # Passing the subject from the website to the python script
         run: python main.py "${{ github.event.client_payload.subject }}"
 
       - name: Commit and Push Resonance
@@ -39,5 +37,5 @@ jobs:
           git config --global user.name "PopeTroy"
           git config --global user.email "info@celsiusmediagroup.co.za"
           git add result.json
-          git commit -m "33rd Degree Political Summary: ${{ github.event.client_payload.subject }}" || exit 0
+          git commit -m "33rd Degree Audit: ${{ github.event.client_payload.subject }}" || exit 0
           git push
