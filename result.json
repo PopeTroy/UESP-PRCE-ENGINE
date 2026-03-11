@@ -1,10 +1,10 @@
 {
     "status": "RESONANT",
-    "timestamp": "1773254534",
-    "subject": "VENEZUALA",
-    "node": "CHICAGO_US",
-    "distance": 3440,
-    "shi": 27.5,
-    "tti": 42.1,
-    "assessment": "Venezuela faces significant political instability due to authoritarian governance, economic crisis, and international isolation, posing considerable systemic risk."
+    "timestamp": "1773255361",
+    "subject": "AMERICA",
+    "node": "CHEYENNE_US",
+    "distance": 144000,
+    "shi": 70.2,
+    "tti": 82.1,
+    "assessment": "America exhibits a complex geopolitical landscape with ongoing debates over governance, international relations, and power dynamics, influencing its systemic health and temporal integrity."
 }
