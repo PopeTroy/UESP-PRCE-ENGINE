@@ -1,9 +1,10 @@
 {
-  "status": "RESONANT",
-  "timestamp": "1741701399",
-  "shi": "98.5",
-  "tti": "94.2",
-  "node": "GAUTENG_HQ",
-  "distance": "144",
-  "assessment": "Resonance established at the 33rd degree. Kinetic matrix stable."
+    "status": "RESONANT",
+    "timestamp": "1773233555",
+    "subject": "GLOBAL SYSTEM",
+    "node": "CHEYENNE_US",
+    "distance": 26783,
+    "shi": 0.87,
+    "tti": 0.92,
+    "assessment": "Systemic performance within acceptable parameters, minor frictions detected in knowledge retrieval and data processing."
 }
