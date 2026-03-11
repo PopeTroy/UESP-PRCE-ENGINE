@@ -8,3 +8,10 @@ on:
         git add result.json
         git commit -m "Update Diagnostic Resonance [33rd Degree]" || exit 0
         git push
+# ... inside your main.yml steps ...
+      - name: Execute 33 Degree Synthesis
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+        # THIS IS THE KEY: Passing the client_payload subject to the python script
+        run: python main.py "${{ github.event.client_payload.subject }}"
