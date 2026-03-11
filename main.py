@@ -29,8 +29,8 @@ def run_33_diagnostic(target):
         m_url = f"https://api.geoapify.com/v1/routematrix?apiKey={matrix_key}"
         payload = {
             "mode": "drive",
-            "sources": [{"location": [28.0436, -26.2023]}], 
-            "targets": [{"location": [28.2293, -25.7479]}]  
+            "sources": [{"location": [28.2323, -26.1384]}], # Kempton Park Node
+            "targets": [{"location": [28.0436, -26.2023]}]  # JHB Target
         }
         m_res = requests.post(m_url, json=payload, timeout=10)
         if m_res.status_code == 200:
@@ -43,7 +43,7 @@ def run_33_diagnostic(target):
     if apify_token:
         try:
             run_url = f"https://api.apify.com/v2/acts/apify~web-scraper/runs?token={apify_token}"
-            requests.post(run_url, json={"startUrls": [{"url": f"https://www.google.com/search?q={target}+systemic+vulnerability"}]}, timeout=10)
+            requests.post(run_url, json={"startUrls": [{"url": f"https://www.google.com/search?q={target}+systemic+risk"}]}, timeout=10)
         except: intel_log = "STREAM_OFFLINE"
 
     # 5. THE 33° PRCE SYNTHESIS (GROQ DATABASE)
