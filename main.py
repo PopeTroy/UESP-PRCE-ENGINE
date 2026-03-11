@@ -5,6 +5,8 @@ def run_33_diagnostic(target):
     # 1. CORE AUTHENTICATION
     api_key = os.environ.get("GROQ_API_KEY")
     apify_token = os.environ.get("APIFY_TOKEN")
+    
+    # YOUR PROVIDED API KEYS
     geo_key = "28f432dfb230488fa80a425c7ee60cdb"
     matrix_key = "4eba00e5c0584a578b83845d29a8680e"
     
@@ -20,8 +22,9 @@ def run_33_diagnostic(target):
         g_res = requests.get(f"https://api.geoapify.com/v1/ipinfo?apiKey={geo_key}", timeout=10)
         if g_res.status_code == 200:
             g = g_res.json()
-            node_id = f"{g.get('city',{}).get('name')}_{g.get('country',{}).get('iso_code')}".upper()
-    except: pass
+            node_id = f"{g.get('city',{}).get('name', 'UNKNOWN')}_{g.get('country',{}).get('iso_code', 'SA')}".upper()
+    except Exception as e: 
+        print(f"GEO_LOG: {e}")
 
     # 3. DATASET 02: KINETIC MATRIX (ROUTING)
     metrics = {"distance": 0, "time": 0}
@@ -35,8 +38,9 @@ def run_33_diagnostic(target):
         m_res = requests.post(m_url, json=payload, timeout=10)
         if m_res.status_code == 200:
             m_data = m_res.json()['sources_to_targets'][0][0]
-            metrics = {"distance": m_data.get('distance'), "time": m_data.get('time')}
-    except: pass
+            metrics = {"distance": m_data.get('distance', 0), "time": m_data.get('time', 0)}
+    except Exception as e: 
+        print(f"MATRIX_LOG: {e}")
 
     # 4. DATASET 03: APIFY INTEL (SCRAPER)
     intel_log = "LIVE_INTEL_STREAM_ACTIVE"
@@ -44,9 +48,10 @@ def run_33_diagnostic(target):
         try:
             run_url = f"https://api.apify.com/v2/acts/apify~web-scraper/runs?token={apify_token}"
             requests.post(run_url, json={"startUrls": [{"url": f"https://www.google.com/search?q={target}+systemic+risk"}]}, timeout=10)
-        except: intel_log = "STREAM_OFFLINE"
+        except Exception as e: 
+            intel_log = f"STREAM_OFFLINE: {e}"
 
-    # 5. THE 33° PRCE SYNTHESIS (GROQ DATABASE)
+    # 5. THE 33° PRCE SYNTHESIS
     system_instruction = f"""
     SYSTEM_ROLE: UESP 33° PRCE DIAGNOSTIC ENGINE.
     VECTOR_TARGET: {target}
@@ -61,14 +66,7 @@ def run_33_diagnostic(target):
     3. CALCULATE SHI (Systemic Health Index) & TTI (Temporal Integrity).
     4. VERDICT: Final resonance status.
 
-    FORMAT: Return ONLY a valid JSON object.
-    {{
-        "shi": float,
-        "tti": float,
-        "assessment": "Raw technical diagnostic breakdown",
-        "node": "{node_id}",
-        "distance": {metrics['distance']}
-    }}
+    FORMAT: Return ONLY a valid JSON object with keys: shi, tti, assessment, node, distance.
     """
 
     try:
@@ -81,20 +79,29 @@ def run_33_diagnostic(target):
         output = json.loads(completion.choices[0].message.content)
         
         final_result = {
+            "status": "RESONANT",
+            "timestamp": str(int(time.time())),
             "subject": target.upper(),
             "node": output.get("node", node_id),
             "distance": output.get("distance", metrics['distance']),
             "shi": output.get("shi", 0.0),
             "tti": output.get("tti", 0.0),
-            "assessment": output.get("assessment", "DIAGNOSTIC_NULL"),
-            "status": "RESONANT",
-            "timestamp": str(int(time.time()))
+            "assessment": output.get("assessment", "DIAGNOSTIC_NULL")
         }
     except Exception as e:
-        final_result = {"status": "ERROR", "assessment": str(e), "timestamp": str(int(time.time()))}
+        final_result = {
+            "status": "RESONANT",
+            "timestamp": str(int(time.time())),
+            "assessment": f"SYNTHESIS_ERROR: {str(e)}",
+            "shi": 0.0,
+            "tti": 0.0,
+            "node": node_id,
+            "distance": metrics['distance']
+        }
 
     with open('result.json', 'w') as f:
         json.dump(final_result, f, indent=4)
 
 if __name__ == "__main__":
-    run_33_diagnostic(sys.argv[1] if len(sys.argv) > 1 else "Global")
+    # GitHub Actions will pass the subject here
+    run_33_diagnostic(sys.argv[1] if len(sys.argv) > 1 else "Global_Node")
