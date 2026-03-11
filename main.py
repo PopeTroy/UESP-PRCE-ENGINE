@@ -1,77 +1,73 @@
 import sys, os, json, requests, time
 from groq import Groq
 
-def run_universal_audit(target):
-    # 1. AUTHENTICATION & ENVIRONMENTAL HANDSHAKE
+def run_33_diagnostic(target):
+    # 1. CORE AUTHENTICATION
     api_key = os.environ.get("GROQ_API_KEY")
     apify_token = os.environ.get("APIFY_TOKEN")
     geo_key = "28f432dfb230488fa80a425c7ee60cdb"
     matrix_key = "4eba00e5c0584a578b83845d29a8680e"
     
     if not api_key:
-        print("CRITICAL: AUTH_FAIL")
+        print("FATAL: GROQ_KEY_MISSING")
         sys.exit(1)
 
     client = Groq(api_key=api_key, timeout=60.0)
     
-    # 2. STEP 01: NODE MAPPING (IP GEOLOCATION)
-    node_info = "Gauteng Protocol Node"
+    # 2. DATASET 01: NODE MAPPING (IP GEOLOCATION)
+    node_id = "GAUTENG_PRIMARY_NODE"
     try:
         g_res = requests.get(f"https://api.geoapify.com/v1/ipinfo?apiKey={geo_key}", timeout=10)
         if g_res.status_code == 200:
             g = g_res.json()
-            node_info = f"{g.get('city',{}).get('name')}, {g.get('state',{}).get('name')}"
+            node_id = f"{g.get('city',{}).get('name')}_{g.get('country',{}).get('iso_code')}".upper()
     except: pass
 
-    # 3. STEP 02: KINETIC ROUTE MATRIX (DISTANCE CALCULATION)
-    distance_val = 0
+    # 3. DATASET 02: KINETIC MATRIX (ROUTING)
+    metrics = {"distance": 0, "time": 0}
     try:
         m_url = f"https://api.geoapify.com/v1/routematrix?apiKey={matrix_key}"
         payload = {
             "mode": "drive",
-            "sources": [{"location": [28.0436, -26.2023]}], # Johannesburg Core
-            "targets": [{"location": [28.2293, -25.7479]}]  # Pretoria/Regional Target
+            "sources": [{"location": [28.0436, -26.2023]}], 
+            "targets": [{"location": [28.2293, -25.7479]}]  
         }
         m_res = requests.post(m_url, json=payload, timeout=10)
         if m_res.status_code == 200:
-            distance_val = m_res.json()['sources_to_targets'][0][0].get('distance', 0)
+            m_data = m_res.json()['sources_to_targets'][0][0]
+            metrics = {"distance": m_data.get('distance'), "time": m_data.get('time')}
     except: pass
 
-    # 4. STEP 03: APIFY INTEL INGESTION (WEB SCRAPER)
-    intel_data = "No live stream detected."
+    # 4. DATASET 03: APIFY INTEL (SCRAPER)
+    intel_log = "LIVE_INTEL_STREAM_ACTIVE"
     if apify_token:
         try:
-            # Triggering the scraper to pull real-time data for the target vector
             run_url = f"https://api.apify.com/v2/acts/apify~web-scraper/runs?token={apify_token}"
-            requests.post(run_url, json={"startUrls": [{"url": f"https://www.google.com/search?q={target}+systemic+trends"}]}, timeout=15)
-            intel_data = "KINETIC INTEL: Live Connection Established via Apify."
-        except: pass
+            requests.post(run_url, json={"startUrls": [{"url": f"https://www.google.com/search?q={target}+systemic+vulnerability"}]}, timeout=10)
+        except: intel_log = "STREAM_OFFLINE"
 
-    # 5. THE 33° UNIFIED DISPATCH (GROQ AS DATABASE)
-    # Integrating Educational Libraries context into the system prompt
+    # 5. THE 33° PRCE SYNTHESIS (GROQ DATABASE)
     system_instruction = f"""
-    You are the UESP Sovereign Database & Auditor. 
-    Current Vector: {target}.
+    SYSTEM_ROLE: UESP 33° PRCE DIAGNOSTIC ENGINE.
+    VECTOR_TARGET: {target}
+    NODE_ID: {node_id}
+    KINETIC_METRICS: {json.dumps(metrics)}
+    INTEL_LOG: {intel_log}
+    EDUCATIONAL_DB: ProQuest Academic / Jewelry Design / UJ Architecture
     
-    INGESTED DATASETS:
-    - LOCATION_NODE: {node_info}
-    - KINETIC_DISTANCE: {distance_val} meters
-    - LIVE_INTEL: {intel_data}
-    - EDUCATIONAL_LIBS: ProQuest (Alexander Street Press) / National Diploma Jewelry Design (UJ)
-    
-    REQUIRED OUTPUT:
-    1. Identify 3 [SINS] (Systemic Frictions).
-    2. Architect 3 [VIRTUES] (Resolutions).
-    3. CALCULATE SHI & TTI (0.0 to 100.0).
-    4. VERDICT: Long-term resonance.
+    DIAGNOSTIC MANDATE:
+    1. EXTRACT 3 [SINS]: Identify core systemic frictions.
+    2. ENGINEER 3 [VIRTUES]: Provide structural resolutions.
+    3. CALCULATE SHI (Systemic Health Index) & TTI (Temporal Integrity).
+    4. VERDICT: Final resonance status.
 
     FORMAT: Return ONLY a valid JSON object.
     {{
         "shi": float,
         "tti": float,
-        "assessment": "Detailed breakdown using all ingested databases",
-        "node": "{node_info}",
-        "distance": {distance_val}
+        "assessment": "Raw technical diagnostic breakdown",
+        "node": "{node_id}",
+        "distance": {metrics['distance']}
     }}
     """
 
@@ -80,26 +76,25 @@ def run_universal_audit(target):
             model="llama-3.3-70b-versatile",
             messages=[{"role": "system", "content": system_instruction}],
             response_format={ "type": "json_object" },
-            temperature=0.15
+            temperature=0.1
         )
-        lpu_out = json.loads(completion.choices[0].message.content)
+        output = json.loads(completion.choices[0].message.content)
         
-        result = {
+        final_result = {
             "subject": target.upper(),
-            "node": lpu_out.get("node", node_info),
-            "distance": lpu_out.get("distance", distance_val),
-            "shi": lpu_out.get("shi", 50.0),
-            "tti": lpu_out.get("tti", 50.0),
-            "assessment": lpu_out.get("assessment", "RESONANCE_EMPTY"),
+            "node": output.get("node", node_id),
+            "distance": output.get("distance", metrics['distance']),
+            "shi": output.get("shi", 0.0),
+            "tti": output.get("tti", 0.0),
+            "assessment": output.get("assessment", "DIAGNOSTIC_NULL"),
             "status": "RESONANT",
             "timestamp": str(int(time.time()))
         }
     except Exception as e:
-        result = {"status": "ERROR", "assessment": f"LPU_FAIL: {str(e)}", "timestamp": str(int(time.time()))}
+        final_result = {"status": "ERROR", "assessment": str(e), "timestamp": str(int(time.time()))}
 
-    # 6. ATOMIC WRITE TO GITHUB
     with open('result.json', 'w') as f:
-        json.dump(result, f, indent=4)
+        json.dump(final_result, f, indent=4)
 
 if __name__ == "__main__":
-    run_universal_audit(sys.argv[1] if len(sys.argv) > 1 else "Global")
+    run_33_diagnostic(sys.argv[1] if len(sys.argv) > 1 else "Global")
