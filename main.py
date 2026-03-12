@@ -2,7 +2,7 @@ import sys, os, json, requests, time
 from groq import Groq
 
 def run_33_diagnostic(target):
-    # 1. CORE AUTHENTICATION
+    # 1. AUTHENTICATION
     api_key = os.environ.get("GROQ_API_KEY")
     geo_key = "28f432dfb230488fa80a425c7ee60cdb"
     
@@ -12,7 +12,7 @@ def run_33_diagnostic(target):
 
     client = Groq(api_key=api_key, timeout=60.0)
     
-    # 2. KINETIC DATA (GEOLOCATION)
+    # 2. NODE MAPPING (LOCAL POINT OF ORIGIN)
     node_id = "GAUTENG_PRIMARY_NODE"
     try:
         g_res = requests.get(f"https://api.geoapify.com/v1/ipinfo?apiKey={geo_key}", timeout=10)
@@ -21,36 +21,33 @@ def run_33_diagnostic(target):
             node_id = f"{g.get('city',{}).get('name', 'KEMPTON_PARK')}_{g.get('country',{}).get('iso_code', 'SA')}".upper()
     except: pass
 
-    # 3. DISPATCH LOGIC & CALCULATION PARAMETERS
-    # Mandating the evaluation of the full skill spectrum
+    # 3. THE GLOBAL AUDIT PROTOCOL
     system_instruction = f"""
-    ROLE: UESP 33° PRCE LEAD DISPATCHER.
-    TARGET: {target}
-    PRIMARY_NODE: Celsius Technology & Media Group.
+    ROLE: UESP 33° PRCE GLOBAL STRATEGIC AUDITOR.
+    SUBJECT: {target}
     
-    SKILL SPECTRUM TO EVALUATE:
-    - Digital Strategy & Marketing Management
-    - Jewelry Design & Goldsmithing (3D/Manufacturing)
-    - Sound Engineering & Music Production (Waves/SABC)
-    - UI/UX & Web Architecture (WordPress/UESP/PRCE)
-    - Graphic Design & DTP (CorelDraw/PostNet logic)
-    - Lead Generation & CRM Automation
-
     MANDATE:
-    1. CALCULATE SHI: Evaluate the 'Systemic Health' of {target}. Use the formula: 
-       SHI = (Infrastructure Readiness + Reality Alignment) / 2.
-    2. CALCULATE TTI: Evaluate 'Temporal Integrity'. Use the formula:
-       TTI = (Sustainability + Real-Time Scalability) / 2.
-    3. DISPATCH: Determine which specific skills from the spectrum above are required to resolve {target}.
-    4. AVENUES: Assign the task to Celsius Media Group or relevant secondary nodes (SABC, PostNet, etc.).
-    5. REAL-TIME FACTOR: How does this impact 'Real Time and Reality' (The 144k Bridge)?
+    1. IDENTIFY FRICTIONS: Map out global bottlenecks, regulatory filters, and systemic resistance regarding {target}.
+    2. APPLY PROTOCOLS: Contrast these frictions against ideal UESP/PRCE resolution protocols (Real-Time Reality, 144k Bridge, Kinetic Deployment).
+    
+    CALCULATION LOGIC (GROQ-INTERNAL):
+    - SHI (Systemic Health Index): 0-100%. 
+      Formula: (Infrastructure Resilience - Active Frictions) / Total System Capacity.
+    - TTI (Temporal Integrity): 0-100%. 
+      Formula: (Resolution Speed / Global Bottleneck Latency) * Real-Time Alignment.
+
+    DISPATCH:
+    - Determine which GLOBAL WORK CLASSES (Creative, Technical, Operational, Labor, Intellectual) are required to pierce the filters.
+    - Direct the deployment to global avenues/industries capable of handling the load.
 
     OUTPUT FORMAT (STRICT JSON):
     {{
         "shi": float,
         "tti": float,
         "subject": "{target}",
-        "assessment": "ANALYSIS: [Brief breakdown]. RESOLUTION: [Action Plan]. DISPATCH: [Skills] -> [Node].",
+        "frictions_identified": ["list"],
+        "protocols_applied": ["list"],
+        "assessment": "ANALYSIS: [World Problem/Bottleneck]. RESOLUTION: [Protocol Deployment]. DISPATCH: [Global Skillsets] -> [Global Industry Avenues].",
         "node": "{node_id}"
     }}
     """
@@ -60,7 +57,7 @@ def run_33_diagnostic(target):
             model="llama-3.3-70b-versatile",
             messages=[{"role": "system", "content": system_instruction}],
             response_format={ "type": "json_object" },
-            temperature=0.3 # Lower temperature for higher calculation accuracy
+            temperature=0.2 # Low temperature for analytical rigidity
         )
         output = json.loads(completion.choices[0].message.content)
         
@@ -72,13 +69,13 @@ def run_33_diagnostic(target):
             "distance": 144000,
             "shi": round(output.get("shi", 0.0), 2),
             "tti": round(output.get("tti", 0.0), 2),
-            "assessment": output.get("assessment", "RESONANCE_ESTABLISHED")
+            "assessment": output.get("assessment", "GLOBAL_PIERCE_COMPLETE")
         }
     except Exception as e:
         final_result = {
             "status": "RESONANT",
             "timestamp": str(int(time.time())),
-            "assessment": f"CALCULATION_ERROR: {str(e)}",
+            "assessment": f"GLOBAL_AUDIT_FAILURE: {str(e)}",
             "shi": 0.0, "tti": 0.0, "node": node_id, "distance": 144000
         }
 
@@ -86,4 +83,4 @@ def run_33_diagnostic(target):
         json.dump(final_result, f, indent=4)
 
 if __name__ == "__main__":
-    run_33_diagnostic(sys.argv[1] if len(sys.argv) > 1 else "GLOBAL_REALITY")
+    run_33_diagnostic(sys.argv[1] if len(sys.argv) > 1 else "GLOBAL_BOTTLENECK_ANALYSIS")
