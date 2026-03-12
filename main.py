@@ -2,7 +2,7 @@ import sys, os, json, requests, time
 from groq import Groq
 
 def run_33_diagnostic(target):
-    # 1. AUTHENTICATION
+    # 1. AUTHENTICATION & CORE KEYS
     api_key = os.environ.get("GROQ_API_KEY")
     geo_key = "28f432dfb230488fa80a425c7ee60cdb"
     
@@ -12,7 +12,7 @@ def run_33_diagnostic(target):
 
     client = Groq(api_key=api_key, timeout=60.0)
     
-    # 2. NODE MAPPING (LOCAL POINT OF ORIGIN)
+    # 2. NODE MAPPING
     node_id = "GAUTENG_PRIMARY_NODE"
     try:
         g_res = requests.get(f"https://api.geoapify.com/v1/ipinfo?apiKey={geo_key}", timeout=10)
@@ -21,33 +21,34 @@ def run_33_diagnostic(target):
             node_id = f"{g.get('city',{}).get('name', 'KEMPTON_PARK')}_{g.get('country',{}).get('iso_code', 'SA')}".upper()
     except: pass
 
-    # 3. THE GLOBAL AUDIT PROTOCOL
+    # 3. THE CALCULATION MANDATE (SUBJECT-SPECIFIC)
     system_instruction = f"""
     ROLE: UESP 33° PRCE GLOBAL STRATEGIC AUDITOR.
-    SUBJECT: {target}
+    SUBJECT_INSERTION: {target}
     
-    MANDATE:
-    1. IDENTIFY FRICTIONS: Map out global bottlenecks, regulatory filters, and systemic resistance regarding {target}.
-    2. APPLY PROTOCOLS: Contrast these frictions against ideal UESP/PRCE resolution protocols (Real-Time Reality, 144k Bridge, Kinetic Deployment).
+    CALCULATION PROTOCOL:
+    You must calculate SHI and TTI based on the specific friction of the SUBJECT.
     
-    CALCULATION LOGIC (GROQ-INTERNAL):
-    - SHI (Systemic Health Index): 0-100%. 
-      Formula: (Infrastructure Resilience - Active Frictions) / Total System Capacity.
-    - TTI (Temporal Integrity): 0-100%. 
-      Formula: (Resolution Speed / Global Bottleneck Latency) * Real-Time Alignment.
-
-    DISPATCH:
-    - Determine which GLOBAL WORK CLASSES (Creative, Technical, Operational, Labor, Intellectual) are required to pierce the filters.
-    - Direct the deployment to global avenues/industries capable of handling the load.
+    1. IDENTIFY FRICTIONS: Analyze bottlenecks, regulatory filters, and systemic resistance inherent to "{target}".
+    2. SHI CALCULATION: (0.0 to 100.0)
+       SHI = (Global Infrastructure Readiness - Localized Subject Friction) / Systemic Resilience.
+    3. TTI CALCULATION: (0.0 to 100.0)
+       TTI = (Deployment Velocity / Subject Complexity) * Real-Time Alignment.
+    
+    DISPATCH MANDATE:
+    - Dispatch skills from the Global Spectrum (Creative, Technical, Operational, Labor, Intellectual).
+    - Map resolutions to Global Industry Avenues.
 
     OUTPUT FORMAT (STRICT JSON):
     {{
         "shi": float,
         "tti": float,
         "subject": "{target}",
-        "frictions_identified": ["list"],
-        "protocols_applied": ["list"],
-        "assessment": "ANALYSIS: [World Problem/Bottleneck]. RESOLUTION: [Protocol Deployment]. DISPATCH: [Global Skillsets] -> [Global Industry Avenues].",
+        "metrics": {{
+            "friction_level": "High/Medium/Low",
+            "bottleneck_type": "string"
+        }},
+        "assessment": "ANALYSIS: [Bottleneck Breakdown]. RESOLUTION: [Protocol Deployment]. DISPATCH: [Skills] -> [Global Avenues].",
         "node": "{node_id}"
     }}
     """
@@ -57,7 +58,7 @@ def run_33_diagnostic(target):
             model="llama-3.3-70b-versatile",
             messages=[{"role": "system", "content": system_instruction}],
             response_format={ "type": "json_object" },
-            temperature=0.2 # Low temperature for analytical rigidity
+            temperature=0.1 # Absolute analytical rigidity
         )
         output = json.loads(completion.choices[0].message.content)
         
@@ -69,13 +70,13 @@ def run_33_diagnostic(target):
             "distance": 144000,
             "shi": round(output.get("shi", 0.0), 2),
             "tti": round(output.get("tti", 0.0), 2),
-            "assessment": output.get("assessment", "GLOBAL_PIERCE_COMPLETE")
+            "assessment": output.get("assessment", "GLOBAL_PIERCE_SUCCESSFUL")
         }
     except Exception as e:
         final_result = {
             "status": "RESONANT",
             "timestamp": str(int(time.time())),
-            "assessment": f"GLOBAL_AUDIT_FAILURE: {str(e)}",
+            "assessment": f"CALCULATION_FAILURE: {str(e)}",
             "shi": 0.0, "tti": 0.0, "node": node_id, "distance": 144000
         }
 
@@ -83,4 +84,4 @@ def run_33_diagnostic(target):
         json.dump(final_result, f, indent=4)
 
 if __name__ == "__main__":
-    run_33_diagnostic(sys.argv[1] if len(sys.argv) > 1 else "GLOBAL_BOTTLENECK_ANALYSIS")
+    run_33_diagnostic(sys.argv[1] if len(sys.argv) > 1 else "GLOBAL_STABILITY_AUDIT")
