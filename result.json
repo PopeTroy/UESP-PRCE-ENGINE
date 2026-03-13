@@ -1,10 +1,10 @@
 {
     "status": "RESONANT",
-    "timestamp": "1773422972",
-    "subject": "New york",
-    "node": "NEW_YORK_US",
+    "timestamp": "1773428695",
+    "subject": "cyril ramaphosa",
+    "node": "CHICAGO_US",
     "distance": 144000,
     "shi": 43.72,
     "tti": 67.45,
-    "assessment": "ANALYSIS: New York's high friction level stems from stringent regulatory filters and systemic resistance, primarily in construction and finance sectors. RESOLUTION: Implementing streamlined permitting processes and incentivizing innovation can mitigate these bottlenecks. DISPATCH: Technical, Operational, Intellectual skills -> Financial Services, Real Estate, Technology avenues."
+    "assessment": "ANALYSIS: Cyril Ramaphosa faces medium-level friction due to regulatory bottlenecks in South African politics. RESOLUTION: Deployment of technical and intellectual skills to navigate policy complexities. DISPATCH: Technical, Intellectual -> Government, Public Policy"
 }
