@@ -1,10 +1,10 @@
 {
     "status": "RESONANT",
-    "timestamp": "1773857144",
-    "subject": "Mumbai india",
-    "node": "CHICAGO_US",
+    "timestamp": "1773857778",
+    "subject": "London UK",
+    "node": "LONDON_UK",
     "distance": 144000,
-    "shi": 43.72,
-    "tti": 67.45,
-    "assessment": "ANALYSIS: Mumbai's high friction level stems from its congested infrastructure and complex regulatory environment, hindering efficient operations. RESOLUTION: Implementing streamlined logistics and compliance protocols can mitigate these bottlenecks. DISPATCH: Technical and Operational skills -> Global Logistics and Compliance Avenues."
+    "shi": 67.42,
+    "tti": 81.19,
+    "assessment": "ANALYSIS: London's regulatory environment and high cost of living create bottlenecks. RESOLUTION: Implement flexible, remote work protocols and leverage local fintech expertise. DISPATCH: Creative, Technical, Operational -> Financial Services, Technology."
 }
