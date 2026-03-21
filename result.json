@@ -1,10 +1,10 @@
 {
     "status": "RESONANT",
-    "timestamp": "1773997978",
-    "subject": "Israel",
-    "node": "PHOENIX_US",
+    "timestamp": "1774094598",
+    "subject": "Iran",
+    "node": "ASHBURN_US",
     "distance": 144000,
-    "shi": 67.42,
-    "tti": 81.19,
-    "assessment": "ANALYSIS: High regulatory barriers and bureaucratic processes create bottlenecks. RESOLUTION: Streamline regulatory frameworks and enhance digital infrastructure. DISPATCH: Technical, Operational -> Financial Services, Information Technology"
+    "shi": 42.11,
+    "tti": 67.45,
+    "assessment": "ANALYSIS: High friction levels in Iran are primarily due to stringent regulatory frameworks and underdeveloped infrastructure, hindering global integration and investment. RESOLUTION: Deployment of specialized technical and operational skills to navigate and improve regulatory compliance and infrastructure readiness. DISPATCH: Technical, Operational -> Financial Services, Energy, and Logistics sectors."
 }
