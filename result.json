@@ -1,10 +1,10 @@
 {
     "status": "RESONANT",
-    "timestamp": "1774194893",
-    "subject": "Tokyo Japan",
-    "node": "PHOENIX_US",
+    "timestamp": "1774195944",
+    "subject": "New york, usa",
+    "node": "NEW_YORK_US",
     "distance": 144000,
-    "shi": 74.23,
-    "tti": 81.17,
-    "assessment": "ANALYSIS: High population density and strict regulations create bottlenecks in infrastructure development and innovation. RESOLUTION: Implementing flexible and adaptive regulatory frameworks and investing in smart infrastructure. DISPATCH: Creative, Technical, Operational -> Financial Services, Technology, and Urban Planning."
+    "shi": 67.42,
+    "tti": 81.19,
+    "assessment": "ANALYSIS: High regulatory friction and complex bureaucratic processes hinder strategic deployment. RESOLUTION: Implement streamlined permitting processes and leverage technology for real-time monitoring. DISPATCH: Technical, Operational -> Financial Services, Government Administration."
 }
