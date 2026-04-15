@@ -1,10 +1,10 @@
 {
     "status": "RESONANT",
-    "timestamp": "1776249154",
-    "subject": "Artemis rover",
-    "node": "BOYDTON_US",
+    "timestamp": "1776249686",
+    "subject": "Aerodynamics",
+    "node": "CHEYENNE_US",
     "distance": 144000,
-    "shi": 74.23,
-    "tti": 81.17,
-    "assessment": "ANALYSIS: The Artemis rover faces medium-level friction due to technological challenges in developing reliable and efficient lunar landing technology, as well as regulatory hurdles in complying with NASA's strict safety and performance standards. RESOLUTION: Implementing advanced materials and propulsion systems, and streamlining the regulatory compliance process through real-time monitoring and feedback. DISPATCH: Technical, Intellectual -> Aerospace, Space Exploration"
+    "shi": 67.42,
+    "tti": 81.19,
+    "assessment": "ANALYSIS: High turbulence and air resistance create bottlenecks. RESOLUTION: Implementing advanced materials and wing designs. DISPATCH: Technical, Intellectual -> Aerospace, Aviation Industries."
 }
