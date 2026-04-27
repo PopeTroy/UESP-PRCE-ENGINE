@@ -1,10 +1,10 @@
 {
     "status": "RESONANT",
-    "timestamp": "1777294080",
-    "subject": "South Africa",
-    "node": "SAN JOSE_US",
+    "timestamp": "1777294686",
+    "subject": "Venezuela",
+    "node": "CHICAGO_US",
     "distance": 144000,
-    "shi": 43.72,
-    "tti": 67.45,
-    "assessment": "ANALYSIS: South Africa's medium friction level is primarily due to regulatory bottlenecks and infrastructure challenges, affecting its global competitiveness. RESOLUTION: Implementing streamlined regulatory processes and investing in infrastructure development can mitigate these issues. DISPATCH: Technical, Operational, and Intellectual skills -> Global Industry Avenues such as Finance, Technology, and Manufacturing."
+    "shi": 23.15,
+    "tti": 41.67,
+    "assessment": "ANALYSIS: Venezuela's high friction level stems from economic instability, regulatory hurdles, and infrastructure challenges. RESOLUTION: Implementing flexible, adaptive protocols that account for these variables. DISPATCH: Creative (Innovation Strategy), Technical (Infrastructure Development), Operational (Logistics Optimization) -> Global Avenues such as Financial Services, Energy, and Manufacturing."
 }
