@@ -1,10 +1,10 @@
 {
     "status": "RESONANT",
-    "timestamp": "1784984848",
-    "subject": "Greece",
-    "node": "BOYDTON_US",
+    "timestamp": "1784987764",
+    "subject": "South Africa",
+    "node": "WASHINGTON_US",
     "distance": 144000,
     "shi": 43.72,
-    "tti": 67.15,
-    "assessment": "ANALYSIS: Greece's regulatory framework and bureaucratic processes create significant bottlenecks. RESOLUTION: Implement streamlined digital platforms for regulatory compliance and business registration. DISPATCH: Technical, Operational -> Financial Services, Government Administration."
+    "tti": 67.45,
+    "assessment": "ANALYSIS: South Africa faces medium-level friction due to regulatory hurdles and infrastructure bottlenecks, particularly in transportation and energy sectors. RESOLUTION: Deployment of streamlined regulatory protocols and investment in infrastructure development. DISPATCH: Technical, Operational, and Intellectual skills -> Global Energy, Logistics, and Financial Avenues."
 }
