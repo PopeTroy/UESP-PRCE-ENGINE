@@ -1,10 +1,10 @@
 {
     "status": "RESONANT",
-    "timestamp": "1784465510",
-    "subject": "Singapore",
-    "node": "SAN JOSE_US",
+    "timestamp": "1784984848",
+    "subject": "Greece",
+    "node": "BOYDTON_US",
     "distance": 144000,
-    "shi": 74.23,
-    "tti": 81.17,
-    "assessment": "ANALYSIS: Singapore's highly developed infrastructure and favorable business environment are somewhat offset by strict regulatory requirements and high operating costs. RESOLUTION: Implementing streamlined compliance protocols and leveraging local expertise can mitigate these frictions. DISPATCH: Technical, Operational, Intellectual skills -> Financial Services, Logistics, and Technology sectors."
+    "shi": 43.72,
+    "tti": 67.15,
+    "assessment": "ANALYSIS: Greece's regulatory framework and bureaucratic processes create significant bottlenecks. RESOLUTION: Implement streamlined digital platforms for regulatory compliance and business registration. DISPATCH: Technical, Operational -> Financial Services, Government Administration."
 }
