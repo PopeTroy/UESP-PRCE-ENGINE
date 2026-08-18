@@ -1,10 +1,9 @@
 {
     "status": "RESONANT",
-    "timestamp": "1785584132",
-    "subject": "America",
-    "node": "DES MOINES_US",
-    "distance": 144000,
-    "shi": 67.42,
-    "tti": 81.19,
-    "assessment": "ANALYSIS: Regulatory bottlenecks and systemic resistance in America are primarily due to complex tax laws and varying state regulations. RESOLUTION: Deployment of streamlined regulatory compliance protocols. DISPATCH: Technical, Operational, Intellectual skills -> Financial, Government, and Technology Industry Avenues."
+    "timestamp": "1787084712",
+    "assessment": "CALCULATION_FAILURE: Error code: 404 - {'error': {'message': 'The model `llama-3.3-70b-versatile` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'code': 'model_not_found'}}",
+    "shi": 0.0,
+    "tti": 0.0,
+    "node": "SAN JOSE_US",
+    "distance": 144000
 }
