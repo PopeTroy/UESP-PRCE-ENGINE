@@ -1,9 +1,9 @@
 {
     "status": "RESONANT",
-    "timestamp": "1787084712",
+    "timestamp": "1787746507",
     "assessment": "CALCULATION_FAILURE: Error code: 404 - {'error': {'message': 'The model `llama-3.3-70b-versatile` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'code': 'model_not_found'}}",
     "shi": 0.0,
     "tti": 0.0,
-    "node": "SAN JOSE_US",
+    "node": "WASHINGTON_US",
     "distance": 144000
 }
