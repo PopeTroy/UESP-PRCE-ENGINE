@@ -58,12 +58,32 @@ def run_33_diagnostic(target):
     """
 
     try:
-        completion = client.chat.completions.create(
-            model="nvidia/nemotron-3.5-lightning-30b-a3b",
-            messages=[{"role": "system", "content": system_instruction}],
-            response_format={ "type": "json_object" },
-            temperature=0.1 # Absolute analytical rigidity
-        )
+        # Multi-model NVIDIA NIM execution pipeline with fallback handling
+        models_to_try = [
+            "nvidia/nemotron-3.5-lightning-30b-a3b",
+            "nvidia/nemotron-3-super-vl-120b-a12b",
+            "nvidia/nemotron-3.5-super-vl-120b-a12b"
+        ]
+        
+        completion = None
+        last_error = None
+        
+        for model_name in models_to_try:
+            try:
+                completion = client.chat.completions.create(
+                    model=model_name,
+                    messages=[{"role": "system", "content": system_instruction}],
+                    response_format={ "type": "json_object" },
+                    temperature=0.1
+                )
+                break
+            except Exception as model_err:
+                last_error = model_err
+                continue
+                
+        if not completion:
+            raise Exception(f"All NVIDIA NIM models failed. Last error: {str(last_error)}")
+
         output = json.loads(completion.choices[0].message.content)
         
         final_result = {
