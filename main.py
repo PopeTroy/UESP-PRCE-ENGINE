@@ -1,16 +1,20 @@
 import sys, os, json, requests, time
-from groq import Groq
+from openai import OpenAI
 
 def run_33_diagnostic(target):
-    # 1. AUTHENTICATION & CORE KEYS
-    api_key = os.environ.get("GROQ_API_KEY")
+    # 1. AUTHENTICATION & CORE KEYS (NVIDIA NIM Microservices Endpoint Integration)
+    api_key = os.environ.get("NVIDIA_API_KEY") or os.environ.get("GROQ_API_KEY")
     geo_key = "28f432dfb230488fa80a425c7ee60cdb"
     
     if not api_key:
-        print("FATAL: GROQ_KEY_MISSING")
+        print("FATAL: NVIDIA_API_KEY_MISSING")
         sys.exit(1)
 
-    client = Groq(api_key=api_key, timeout=60.0)
+    # Initialize OpenAI client pointed to NVIDIA NIM ephemeral microservices endpoint
+    client = OpenAI(
+        base_url="https://integrate.api.nvidia.com/v1",
+        api_key=api_key
+    )
     
     # 2. NODE MAPPING
     node_id = "GAUTENG_PRIMARY_NODE"
@@ -55,7 +59,7 @@ def run_33_diagnostic(target):
 
     try:
         completion = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            model="nvidia/nemotron-3.5-lightning-30b-a3b",
             messages=[{"role": "system", "content": system_instruction}],
             response_format={ "type": "json_object" },
             temperature=0.1 # Absolute analytical rigidity
