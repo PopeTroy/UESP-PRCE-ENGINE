@@ -1,9 +1,10 @@
 {
     "status": "RESONANT",
-    "timestamp": "1787746507",
-    "assessment": "CALCULATION_FAILURE: Error code: 404 - {'error': {'message': 'The model `llama-3.3-70b-versatile` does not exist or you do not have access to it.', 'type': 'invalid_request_error', 'code': 'model_not_found'}}",
-    "shi": 0.0,
-    "tti": 0.0,
-    "node": "WASHINGTON_US",
-    "distance": 144000
+    "timestamp": "1794049506",
+    "subject": "South Africa economy ",
+    "node": "DES MOINES_US",
+    "distance": 144000,
+    "shi": 66.67,
+    "tti": 85.0,
+    "assessment": "ANALYSIS: South Africa economy exhibits High friction level with primary bottleneck type Energy Supply & Grid Integrity impeding deployment. RESOLUTION: Deploy protocol-driven friction mitigation strategies including energy diversification, infrastructure modernization, and regulatory simplification. DISPATCH: Creative skills -> Digital transformation and fintech innovation avenues; Technical skills -> Energy systems engineering and grid automation operatives; Operational skills -> Logistics and project management execution; Labor skills -> Vocational upskilling and employment placement programs; Intellectual skills -> Macroeconomic modeling and policy reform think tanks mapping to Global Industry Avenues: Renewable Energy Infrastructure, ICT & Digital Services, and Sustainable Development Finance."
 }
